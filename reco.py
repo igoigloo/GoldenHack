@@ -1,7 +1,7 @@
 import openai
 
 # Set the OpenAI API Key
-openai.api_key = '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'
+openai.api_key = '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'
 
 def get_business_idea(country):
     # Generate a business idea based on the country
@@ -18,5 +18,5 @@ def get_business_idea(country):
 
 # Example Usage
 country = "India"
-idea = get_business_idea('India')
+idea = get_business_idea(country)
 print(f"Business idea for {country}: {idea}")
