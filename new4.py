@@ -5,7 +5,7 @@ import time
 import plotly.express as px
 from PIL import Image
 # Set the OpenAI API Key (Replace 'XXXXXXXXXXXXX' with your actual API key)
-openai.api_key = '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'
+openai.api_key = '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'
 
 # Create a Streamlit app with improved design
 st.set_page_config(page_title="Atlas Analytics", layout="wide")
