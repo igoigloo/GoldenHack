@@ -3,23 +3,22 @@ import openai
 import pandas as pd
 import time
 import plotly.express as px
-
+from PIL import Image
 # Set the OpenAI API Key (Replace 'XXXXXXXXXXXXX' with your actual API key)
-openai.api_key = 'XXXXXXXXXXXXX'
+openai.api_key = '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'
 
 # Create a Streamlit app with improved design
-st.set_page_config(page_title="AI-Powered Business Idea Generator", layout="wide")
-
+st.set_page_config(page_title="Atlas Analytics", layout="wide")
 # Custom CSS to style the app
 st.markdown(
     """
     <style>
     .stButton > button {
-        background-color: #4CAF50;
+        background-color: #4CAF50;  /* Use green color for the buttons */
         color: white;
         font-weight: bold;
         border: none;
-        padding: 15px 30px;  # Larger button
+        padding: 15px 30px;  /* Larger button */
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -30,10 +29,28 @@ st.markdown(
     .stButton > button:hover {
         background-color: #45a049;
     }
+    .top-banner {
+        border-style: solid;
+        border-color: green;
+        padding: 20px;
+        text-align: center;
+    }
+    .banner-title {
+        color: white;  /* Use black for title text color */
+        font-size: 40px;
+    }
+    .banner-description {
+        color: white;  /* Use black for description text color */
+        font-size: 16px;
+    }
+    .stPlotly {
+        background-color: #4CAF50;  /* Use green for Plotly chart background */
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 # Business Idea Generator
 def get_business_idea(country, countryOfResidence):
@@ -66,6 +83,17 @@ df['Percentage'] = pd.to_numeric(df['Percentage'], errors='coerce')
 specific_country_df = df.iloc[1:]
 specific_country_max_percentage = specific_country_df.loc[specific_country_df['Percentage'].idxmax()]
 
+# Top Banner
+st.markdown(
+    """
+    <div class="top-banner">
+        <h1 class="banner-title">Atlas Analytics</h1>
+        <p class="banner-description">Empowering Entrepreneurs with Data Analytics</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 # Business Idea Generator Section
 st.title("AI-Powered Business Idea Generator")
 st.write("Welcome to the AI-powered Business Idea Generator. Our AI model has analyzed data from various countries and industries to provide you with unique business ideas.")
@@ -75,6 +103,12 @@ st.write("Simply select a country, and we'll use the power of AI to suggest busi
 st.sidebar.header("Select Options")
 country = st.sidebar.selectbox("Select Country", df['Country'])
 countryOfResidence = st.sidebar.text_input("Enter Country of Residence", "Canada")
+
+with st.sidebar:
+    image = Image.open("Orange Digital Code Logo Template.png")
+    st.image(image, caption='Powered by Environics Analytics')
+    st.write("About Us: Atlas Analytica is a dynamic analytics firm that empowers entrepreneurs with AI and data analytics. We provide innovative solutions to help businesses make data-driven decisions and achieve their goals. With us, entrepreneurs have a trusted partner to navigate the modern business landscape and seize opportunities. ")
+    st.write("Coders: Jacob Manangan & Igo Domingo")
 
 # Main content area for Business Idea Generator
 st.write("Country with max percentage:", specific_country_max_percentage['Country'])
@@ -86,6 +120,7 @@ if st.button("Generate Business Idea", key="business_idea_button"):
     idea = get_business_idea(country, countryOfResidence)
     st.write("Business idea for people from", country, "living in", countryOfResidence, ":")
     st.write(idea)
+
 
 # Data Visualization Section
 st.title("Data Visualizations")
@@ -101,7 +136,7 @@ if show_permanent_residents_1:
     st.write("Hover over data points for more information.")
     
     PRc = pd.read_excel("Datasets/2Permanent_Resident_-_Country_of_Citizenship copy.xlsx")
-    PRc = PRc.sort_values(by='Count', ascending=True)
+    PRc = PRc.sort_values (by='Count', ascending=True)
     fig = px.bar(PRc, x='Count', y='Country', hover_data=[PRc.columns[0], 'Count', 'Base Count'])
     fig.update_layout(height=300, width=500)
     st.plotly_chart(fig, use_container_width=True)
@@ -150,7 +185,7 @@ if show_temporary_residents_2:
     st.write("Hover over data points for more information.")
     
     TRc = pd.read_excel("Datasets/2Temporary_Resident_-_Country_of_Citizenship.xlsx")
-    TRc = TRc.sort_values(by='Count', ascending=True)
+    TRc = TRc.sort_values( by='Count', ascending=True)
     fig = px.bar(TRc, x='Count', y='Country', hover_data=[TRc.columns[0], 'Count', 'Base Count'])
     fig.update_layout(height=300, width=500)
     st.plotly_chart(fig, use_container_width=True)
