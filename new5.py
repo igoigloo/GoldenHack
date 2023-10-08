@@ -6,45 +6,76 @@ import plotly.express as px
 from PIL import Image
 # Set the OpenAI API Key (Replace 'XXXXXXXXXXXXX' with your actual API key)
 openai.api_key = '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'
-
-# Create a Streamlit app with improved design
+# Set the page title and layout
 st.set_page_config(page_title="Atlas Analytics", layout="wide")
-# Custom CSS to style the app
+
+# Modern CSS
 st.markdown(
     """
     <style>
-    .stButton > button {
-        background-color: #4CAF50;  /* Use green color for the buttons */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .header {
+        background: #3498db;
         color: white;
-        font-weight: bold;
+        text-align: center;
+        padding: 20px 0;
+    }
+    .banner {
+        background: url('background.jpg') no-repeat center center;
+        background-size: cover;
+        text-align: center;
+        padding: 100px 0;
+    }
+    .banner h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    .call-to-action {
+        background: #e74c3c;
+        color: white;
+        padding: 15px 30px;
         border: none;
-        padding: 15px 30px;  /* Larger button */
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 18px;
         border-radius: 5px;
+        font-size: 18px;
         cursor: pointer;
+        transition: background 0.3s;
     }
-    .stButton > button:hover {
-        background-color: #45a049;
+    .call-to-action:hover {
+        background: #c0392b;
     }
-    .top-banner {
-        border-style: solid;
-        border-color: green;
+    .section {
         padding: 20px;
+    }
+    .form-container {
         text-align: center;
     }
-    .banner-title {
-        color: white;  /* Use black for title text color */
-        font-size: 40px;
-    }
-    .banner-description {
-        color: white;  /* Use black for description text color */
+    .form-input {
+        width: 80%;
+        padding: 10px;
         font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
-    .stPlotly {
-        background-color: #4CAF50;  /* Use green for Plotly chart background */
+    .generate-button {
+        background: #e74c3c;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .generate-button:hover {
+        background: #c0392b;
+    }
+    .chart-container {
+        text-align: center;
     }
     </style>
     """,
@@ -106,7 +137,7 @@ countryOfResidence = st.sidebar.text_input("Enter Country of Residence", "Canada
 
 with st.sidebar:
     image = Image.open("Orange Digital Code Logo Template.png")
-    st.image(image, caption='Powered by Environics Analytics & OpenAI')
+    st.image(image, caption='Powered by Environics Analytics')
     st.write("About Us: Atlas Analytica is a dynamic analytics firm that empowers entrepreneurs with AI and data analytics. We provide innovative solutions to help businesses make data-driven decisions and achieve their goals. With us, entrepreneurs have a trusted partner to navigate the modern business landscape and seize opportunities. ")
     st.write("Coders: Jacob Manangan & Igo Domingo")
 
