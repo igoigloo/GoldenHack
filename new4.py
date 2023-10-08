@@ -19,7 +19,7 @@ st.markdown(
         color: white;
         font-weight: bold;
         border: none;
-        padding: 10px 20px;
+        padding: 15px 30px;  # Larger button
         text-align: center;
         text-decoration: none;
         display: inline-block;
@@ -82,69 +82,78 @@ st.write("Percentage:", specific_country_max_percentage['Percentage'])
 st.write("Base Count:", specific_country_max_percentage['Base Count'])
 
 # Button to generate the business idea
-if st.button("Generate Business Idea"):
+if st.button("Generate Business Idea", key="business_idea_button"):
     idea = get_business_idea(country, countryOfResidence)
     st.write("Business idea for people from", country, "living in", countryOfResidence, ":")
     st.write(idea)
 
 # Data Visualization Section
-st.header("Data Visualizations")
+st.title("Data Visualizations")
 st.write("Explore intriguing visualizations of permanent and temporary residents' data in vibrant colors and engaging charts.")
-st.write("Use the following instructions to navigate the data visualizations:")
+st.write("Use the following buttons to navigate the data visualizations:")
 
-# Data Visualization - Permanent Residents
-PRc = pd.read_excel("Datasets/2Permanent_Resident_-_Country_of_Citizenship copy.xlsx")
-PRr = pd.read_excel("Datasets/2Permanent_Resident_-_Region_of_Citizenship.xlsx")
+# Button for Data Visualization - Permanent Residents (Section 1)
+show_permanent_residents_1 = st.button("Section 1: Permanent Residents by Country", key="permanent_residents_1_button")
+if show_permanent_residents_1:
+    st.markdown("### Section 1: Permanent Residents by Country")
+    st.write("In this chart, you can explore the population density via ethnicity in permanent residents by country.")
+    st.write("Compare the 'Count' and 'Base Count' variables to gain insights into the diverse ethnicities in your chosen region.")
+    st.write("Hover over data points for more information.")
+    
+    PRc = pd.read_excel("Datasets/2Permanent_Resident_-_Country_of_Citizenship copy.xlsx")
+    PRc = PRc.sort_values(by='Count', ascending=True)
+    fig = px.bar(PRc, x='Count', y='Country', hover_data=[PRc.columns[0], 'Count', 'Base Count'])
+    fig.update_layout(height=300, width=500)
+    st.plotly_chart(fig, use_container_width=True)
+    
+    if st.button("Close Section 1", key="close_permanent_residents_1"):
+        show_permanent_residents_1 = False
 
-with st.expander("Permanent Residents Data Visualization"):
-    st.write("Here, you can dive into captivating visualizations related to permanent residents.")
-    st.subheader("Population Density via Ethnicity in Permanent Residents (by Country)")
-    st.write("This chart compares the 'Count' and 'Base Count' variables, offering insights into diverse ethnicities.")
-    st.write("Discover a spectrum of cultural backgrounds and their contributions to your chosen region.")
-    st.markdown("Navigate the chart: Use the zoom and pan tools at the top-right of the chart for a closer look. Hover over data points for more information.")
-    st.markdown("---")  # Add a separator line
+# Button for Data Visualization - Permanent Residents (Section 2)
+show_permanent_residents_2 = st.button("Section 2: Permanent Residents by Region", key="permanent_residents_2_button")
+if show_permanent_residents_2:
+    st.markdown("### Section 2: Permanent Residents by Region")
+    st.write("Explore the population density via ethnicity in permanent residents by region.")
+    st.write("Gain an understanding of how cultural diversity shapes your selected area.")
+    st.write("Hover over data points for more information.")
+    
+    PRr = pd.read_excel("Datasets/2Permanent_Resident_-_Region_of_Citizenship.xlsx")
+    fig = px.bar(PRr, x='Count', y='Region', hover_data=[PRr.columns[0], 'Count', 'Base Count'])
+    fig.update_layout(height=300, width=500)
+    st.plotly_chart(fig, use_container_width=True)
+    
+    if st.button("Close Section 2", key="close_permanent_residents_2"):
+        show_permanent_residents_2 = False
 
-    # Create two columns for charts
-    fig_col1, fig_col2 = st.columns(2)
+# Button for Data Visualization - Temporary Residents (Section 1)
+show_temporary_residents_1 = st.button("Section 3: Temporary Residents by Region", key="temporary_residents_1_button")
+if show_temporary_residents_1:
+    st.markdown("### Section 3: Temporary Residents by Region")
+    st.write("Explore the population density via ethnicity in temporary residents by region.")
+    st.write("Gain insights into the transient population's ethnicity distribution.")
+    st.write("Hover over data points for more information.")
+    
+    TRr = pd.read_excel("Datasets/2Temporary_Resident-_Region_of_Citizenship.xlsx")
+    fig = px.bar(TRr, x='Count', y='Region', hover_data=[TRr.columns[0], 'Count', 'Base Count'])
+    fig.update_layout(height=300, width=500)
+    st.plotly_chart(fig, use_container_width=True)
+    
+    if st.button("Close Section 3", key="close_temporary_residents_1"):
+        show_temporary_residents_1 = False
 
-    with fig_col1:
-        PRc = PRc.sort_values(by='Count', ascending=True)
-        fig = px.bar(PRc, x='Count', y='Country', hover_data=[PRc.columns[0], 'Count', 'Base Count'])
-        fig.update_layout(height=300, width=500)
-        st.plotly_chart(fig)
-
-    with fig_col2:
-        st.subheader("Population Density via Ethnicity in Permanent Residents (by Region)")
-        st.write("Explore the regional distribution of different ethnicities.")
-        st.write("Understand how cultural diversity shapes your selected area.")
-        fig = px.bar(PRr, x='Count', y='Region', hover_data=[PRr.columns[0], 'Count', 'Base Count'])
-        fig.update_layout(height=300, width=500)
-        st.plotly_chart(fig)
-
-# Data Visualization - Temporary Residents
-TRc = pd.read_excel("Datasets/2Temporary_Resident_-_Country_of_Citizenship.xlsx")
-TRr = pd.read_excel("Datasets/2Temporary_Resident-_Region_of_Citizenship.xlsx")
-
-with st.expander("Temporary Residents Data Visualization"):
-    st.subheader("Population Density via Ethnicity in Temporary Residents (by Region)")
-    st.write("This bar chart compares the 'Count' and 'Base Count' variables.")
-    st.write("Explore the transient population's ethnicity distribution in various regions.")
-    st.markdown("Navigate the chart: Use the zoom and pan tools at the top-right of the chart for a closer look. Hover over data points for more information.")
-    st.markdown("---")  # Add a separator line
-
-    # Create two columns for charts
-    fig_col1, fig_col2 = st.columns(2)
-
-    with fig_col1:
-        fig = px.bar(TRr, x='Count', y='Region', hover_data=[TRr.columns[0], 'Count', 'Base Count'])
-        fig.update_layout(height=300, width=500)
-        st.plotly_chart(fig)
-
-    with fig_col2:
-        TRc = TRc.sort_values(by='Count', ascending=True)
-        st.subheader("Population Density via Ethnicity in Temporary Residents (by Country)")
-        st.write("Discover the origin of temporary residents in your region.")
-        st.write("Learn about the cultural mosaic that contributes to the vibrant atmosphere.")
-        fig = px.bar(TRc, x='Count', y='Country', hover_data=[TRc.columns[0], 'Count', 'Base Count'])
-        fig.update_layout(height=300, width=500)
-        st.plotly_chart(fig)
+# Button for Data Visualization - Temporary Residents (Section 2)
+show_temporary_residents_2 = st.button("Section 4: Temporary Residents by Country", key="temporary_residents_2_button")
+if show_temporary_residents_2:
+    st.markdown("### Section 4: Temporary Residents by Country")
+    st.write("Discover the population density via ethnicity in temporary residents by country.")
+    st.write("Learn more about the mix of ethnicities in the region of your choice.")
+    st.write("Hover over data points for more information.")
+    
+    TRc = pd.read_excel("Datasets/2Temporary_Resident_-_Country_of_Citizenship.xlsx")
+    TRc = TRc.sort_values(by='Count', ascending=True)
+    fig = px.bar(TRc, x='Count', y='Country', hover_data=[TRc.columns[0], 'Count', 'Base Count'])
+    fig.update_layout(height=300, width=500)
+    st.plotly_chart(fig, use_container_width=True)
+    
+    if st.button("Close Section 4", key="close_temporary_residents_2"):
+        show_temporary_residents_2 = False
